@@ -49,6 +49,7 @@
 #include "apr_poll.h"
 
 #include <stdlib.h>
+#include "psandbox.h"
 
 #ifdef HAVE_TIME_H
 #include <time.h>
@@ -513,12 +514,14 @@ static void child_main(int child_num_arg, int child_bucket)
 
         (void) ap_update_child_status(sbh, SERVER_READY, (request_rec *) NULL);
 
+
         /*
          * Wait for an acceptable connection to arrive.
          */
 
         /* Lock around "accept", if necessary */
         SAFE_ACCEPT(accept_mutex_on());
+
 
         if (num_listensocks == 1) {
             /* There is only one listener record, so refer to that one. */
@@ -594,11 +597,17 @@ static void child_main(int child_num_arg, int child_bucket)
 
         SAFE_ACCEPT(accept_mutex_off());      /* unlock after "accept" */
 
+        int psandbox;
+        psandbox = create_psandbox();
+        active_psandbox(psandbox);
+
         if (status == APR_EGENERAL) {
+            release_psandbox(psandbox);
             /* resource shortage or should-not-occur occurred */
             clean_child_exit(APEXIT_CHILDSICK);
         }
         else if (status != APR_SUCCESS) {
+            release_psandbox(psandbox);
             continue;
         }
 
@@ -631,6 +640,9 @@ static void child_main(int child_num_arg, int child_bucket)
              */
             die_now = 1;
         }
+
+        release_psandbox(psandbox);
+
     }
     apr_pool_clear(ptrans); /* kludge to avoid crash in APR reslist cleanup code */
     clean_child_exit(0);

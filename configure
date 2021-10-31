@@ -5682,21 +5682,33 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_cc_g" >&5
 $as_echo "$ac_cv_prog_cc_g" >&6; }
+
+# Psandbox
+if ${PSANDBOXDIR}; then
+ echo "PSANDBOXDIR environment variable is not set, building PostgreSQL without psandbox."
+else
+ PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
+ PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
+fi
+
+
 if test "$ac_test_CFLAGS" = set; then
-  CFLAGS=$ac_save_CFLAGS
+  CFLAGS="$ac_save_CFLAGS -I${PSANDBOXSRC_INCLUDE}"
 elif test $ac_cv_prog_cc_g = yes; then
   if test "$GCC" = yes; then
-    CFLAGS="-g -O2"
+    CFLAGS="-g -O2 -I${PSANDBOXSRC_INCLUDE}"
   else
     CFLAGS="-g"
   fi
 else
   if test "$GCC" = yes; then
-    CFLAGS="-O2"
+    CFLAGS="-O2 -I${PSANDBOXSRC_INCLUDE}"
   else
     CFLAGS=
   fi
 fi
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $CC option to accept ISO C89" >&5
 $as_echo_n "checking for $CC option to accept ISO C89... " >&6; }
 if ${ac_cv_prog_cc_c89+:} false; then :
@@ -5923,6 +5935,8 @@ $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "C preprocessor \"$CPP\" fails sanity check
 See \`config.log' for more details" "$LINENO" 5; }
 fi
+
+LIBS="-lm -L${PSANDBOXSRC_LIB} -lpsandbox $LIBS"
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -7278,6 +7292,7 @@ CPPFLAGS="$ap_ckver_CPPFLAGS"
 
   fi
 fi
+
 
 
 if test "$GCC" = "yes"; then
@@ -20654,7 +20669,6 @@ $as_echo "checking dependencies" >&6; }
             :
 
 
-
 # Check whether --with-lua was given.
 if test "${with_lua+set}" = set; then :
   withval=$with_lua; lua_path="$withval"
@@ -20683,7 +20697,7 @@ if ${ac_cv_lib_m_pow+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lm  $LIBS"
+LIBS="-lm  $LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -20723,7 +20737,7 @@ if ${ac_cv_lib_m_sqrt+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lm  $LIBS"
+LIBS="-lm  $LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
