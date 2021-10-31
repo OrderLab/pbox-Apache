@@ -1,0 +1,16 @@
+#! /bin/sh
+#
+# Created by configure
+
+"/home/chandy/project/psandbox/apache/httpd-2.4.38/srclib/apr-util/configure" \
+"--disable-option-checking" \
+"--with-included-apr" \
+"--cache-file=/dev/null" \
+"--srcdir=/home/chandy/project/psandbox/apache/httpd-2.4.38/srclib/apr-util" \
+"--with-apr=../apr" \
+"--prefix=/home/chandy/project/psandbox/apache/apache2" \
+"--exec-prefix=/home/chandy/project/psandbox/apache/apache2" \
+"--libdir=/home/chandy/project/psandbox/apache/apache2/lib" \
+"--includedir=/home/chandy/project/psandbox/apache/apache2/include" \
+"--bindir=/home/chandy/project/psandbox/apache/apache2/bin" \
+"$@"
