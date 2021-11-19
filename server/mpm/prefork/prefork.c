@@ -377,6 +377,8 @@ static void stop_listening(int sig)
 static int requests_this_child;
 static int num_listensocks = 0;
 
+#include <arpa/inet.h>
+
 static void child_main(int child_num_arg, int child_bucket)
 {
 #if APR_HAS_THREADS
@@ -597,17 +599,17 @@ static void child_main(int child_num_arg, int child_bucket)
 
         SAFE_ACCEPT(accept_mutex_off());      /* unlock after "accept" */
 
-        int psandbox;
-        psandbox = create_psandbox();
-        active_psandbox(psandbox);
+        // int psandbox;
+        // psandbox = create_psandbox();
+        // active_psandbox(psandbox);
 
         if (status == APR_EGENERAL) {
-            release_psandbox(psandbox);
+            // release_psandbox(psandbox);
             /* resource shortage or should-not-occur occurred */
             clean_child_exit(APEXIT_CHILDSICK);
         }
         else if (status != APR_SUCCESS) {
-            release_psandbox(psandbox);
+            // release_psandbox(psandbox);
             continue;
         }
 
@@ -617,7 +619,40 @@ static void child_main(int child_num_arg, int child_bucket)
          */
 
         current_conn = ap_run_create_connection(ptrans, ap_server_conf, csd, my_child_num, sbh, bucket_alloc);
+
+
+        int psandbox;
+        int client_ip;
+        int success;
+        // psandbox = create_psandbox();
+        // active_psandbox(psandbox);
+
+
         if (current_conn) {
+
+            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                            "!!!! client addr %s", current_conn->client_addr);
+            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                            "!!!! client ip %s", current_conn->client_ip);
+
+            //ip to int
+            success = inet_pton(AF_INET, current_conn->client_ip, &client_ip);
+            if (!success) {
+                //XXX error log
+            }
+
+            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                            "!!!! client ip translated %d", client_ip);
+
+            psandbox = get_psandbox(client_ip);
+            if (psandbox == -1) {
+                psandbox = create_psandbox();
+            } else {
+                psandbox = bind_psandbox(client_ip);
+            }
+            active_psandbox(psandbox);
+
+
 #if APR_HAS_THREADS
             current_conn->current_thread = thd;
 #endif
@@ -641,7 +676,9 @@ static void child_main(int child_num_arg, int child_bucket)
             die_now = 1;
         }
 
-        release_psandbox(psandbox);
+        //XXX not release
+        //release_psandbox(psandbox);
+        unbind_psandbox(client_ip, psandbox);
 
     }
     apr_pool_clear(ptrans); /* kludge to avoid crash in APR reslist cleanup code */
