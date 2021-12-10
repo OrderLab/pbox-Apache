@@ -599,17 +599,12 @@ static void child_main(int child_num_arg, int child_bucket)
 
         SAFE_ACCEPT(accept_mutex_off());      /* unlock after "accept" */
 
-        // int psandbox;
-        // psandbox = create_psandbox();
-        // active_psandbox(psandbox);
 
         if (status == APR_EGENERAL) {
-            // release_psandbox(psandbox);
             /* resource shortage or should-not-occur occurred */
             clean_child_exit(APEXIT_CHILDSICK);
         }
         else if (status != APR_SUCCESS) {
-            // release_psandbox(psandbox);
             continue;
         }
 
@@ -622,7 +617,7 @@ static void child_main(int child_num_arg, int child_bucket)
 
 
         int psandbox;
-        int client_ip;
+        size_t client_ip;
         int success;
         // psandbox = create_psandbox();
         // active_psandbox(psandbox);
@@ -630,8 +625,8 @@ static void child_main(int child_num_arg, int child_bucket)
 
         if (current_conn) {
 
-            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                            "!!!! client addr %s", current_conn->client_addr);
+            // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //                 "!!!! client addr %s", current_conn->client_addr);
             ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
                             "!!!! client ip %s", current_conn->client_ip);
 
@@ -641,16 +636,28 @@ static void child_main(int child_num_arg, int child_bucket)
                 //XXX error log
             }
 
-            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                            "!!!! client ip translated %d", client_ip);
+            // psandbox = get_psandbox(client_ip);
+            // if (psandbox == -1) {
+            //     IsolationRule rule;
+            //     rule.type = RELATIVE;
+            //     rule.isolation_level = 50;
+            //     rule.priority = 0;
+            //     psandbox = create_psandbox(rule);
+            //     // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //     //             "!!!! psandbox create %d", psandbox);
+            // } else {
+            //     psandbox = bind_psandbox(client_ip);
+            //     // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //     //             "!!!! psandbox bind  %d", psandbox);
+            // }
+            // activate_psandbox(psandbox);
 
-            psandbox = get_psandbox(client_ip);
-            if (psandbox == -1) {
-                psandbox = create_psandbox();
-            } else {
-                psandbox = bind_psandbox(client_ip);
-            }
-            active_psandbox(psandbox);
+            IsolationRule rule;
+            rule.type = RELATIVE;
+            rule.isolation_level = 50;
+            rule.priority = 0;
+            psandbox = create_psandbox(rule);
+            activate_psandbox(psandbox);
 
 
 #if APR_HAS_THREADS
@@ -676,9 +683,8 @@ static void child_main(int child_num_arg, int child_bucket)
             die_now = 1;
         }
 
-        //XXX not release
-        //release_psandbox(psandbox);
-        unbind_psandbox(client_ip, psandbox);
+        // int ret = unbind_psandbox(client_ip, psandbox, false, false);
+        release_psandbox(psandbox);
 
     }
     apr_pool_clear(ptrans); /* kludge to avoid crash in APR reslist cleanup code */
