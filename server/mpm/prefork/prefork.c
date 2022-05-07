@@ -378,7 +378,7 @@ static int requests_this_child;
 static int num_listensocks = 0;
 
 #include <arpa/inet.h>
-
+#include <sys/time.h>
 static void child_main(int child_num_arg, int child_bucket)
 {
 #if APR_HAS_THREADS
@@ -618,46 +618,51 @@ static void child_main(int child_num_arg, int child_bucket)
 
         int psandbox;
         size_t client_ip;
-        int success;
+        struct timeval tv;
+        uint64_t start_us, end_us;
+
         // psandbox = create_psandbox();
         // active_psandbox(psandbox);
 
 
         if (current_conn) {
 
+            gettimeofday(&tv, NULL);
+            start_us =
+                (uint64_t)(tv.tv_sec) * 1000 * 1000 +
+                (uint64_t)(tv.tv_usec);
+
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-            //                 "!!!! client addr %s", current_conn->client_addr);
-            ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                            "!!!! client ip %s", current_conn->client_ip);
+            //                 "!!!! client ip %s", current_conn->client_ip);
 
             //ip to int
-            success = inet_pton(AF_INET, current_conn->client_ip, &client_ip);
-            if (!success) {
-                //XXX error log
+            inet_pton(AF_INET, current_conn->client_ip, &client_ip);
+
+            // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //                 "[+] %lu: %lu start", client_ip, start_us);
+
+            psandbox = get_psandbox(client_ip);
+            if (psandbox == -1) {
+                IsolationRule rule;
+                rule.type = RELATIVE;
+                rule.isolation_level = 100;
+                rule.priority = 0;
+                psandbox = create_psandbox(rule);
+                // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                //             "!!!! psandbox create %d", psandbox);
+            } else {
+                psandbox = bind_psandbox(client_ip);
+                // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                //             "!!!! psandbox bind  %d", psandbox);
             }
-
-            // psandbox = get_psandbox(client_ip);
-            // if (psandbox == -1) {
-            //     IsolationRule rule;
-            //     rule.type = RELATIVE;
-            //     rule.isolation_level = 50;
-            //     rule.priority = 0;
-            //     psandbox = create_psandbox(rule);
-            //     // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-            //     //             "!!!! psandbox create %d", psandbox);
-            // } else {
-            //     psandbox = bind_psandbox(client_ip);
-            //     // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-            //     //             "!!!! psandbox bind  %d", psandbox);
-            // }
-            // activate_psandbox(psandbox);
-
-            IsolationRule rule;
-            rule.type = RELATIVE;
-            rule.isolation_level = 50;
-            rule.priority = 0;
-            psandbox = create_psandbox(rule);
             activate_psandbox(psandbox);
+
+            // IsolationRule rule;
+            // rule.type = RELATIVE;
+            // rule.isolation_level = 50;
+            // rule.priority = 0;
+            // psandbox = create_psandbox(rule);
+            // activate_psandbox(psandbox);
 
 
 #if APR_HAS_THREADS
@@ -683,9 +688,19 @@ static void child_main(int child_num_arg, int child_bucket)
             die_now = 1;
         }
 
-        // int ret = unbind_psandbox(client_ip, psandbox, false, false);
-        release_psandbox(psandbox);
+        gettimeofday(&tv, NULL);
+        end_us =
+            (uint64_t)(tv.tv_sec) * 1000 * 1000 +
+            (uint64_t)(tv.tv_usec);
+        // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+        //                     "[+] %lu: %lu end", client_ip, end_us);
+        ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                            "[+] %lu, %lu", client_ip, end_us - start_us);
 
+        int ret = unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
+        /* int ret = unbind_psandbox(client_ip, psandbox, UNBIND_NONE); */
+
+        // release_psandbox(psandbox);
     }
     apr_pool_clear(ptrans); /* kludge to avoid crash in APR reslist cleanup code */
     clean_child_exit(0);
