@@ -627,16 +627,21 @@ static void child_main(int child_num_arg, int child_bucket)
 
         if (current_conn) {
 
-            gettimeofday(&tv, NULL);
-            start_us =
-                (uint64_t)(tv.tv_sec) * 1000 * 1000 +
-                (uint64_t)(tv.tv_usec);
+            /* gettimeofday(&tv, NULL); */
+            /* start_us = */
+                /* (uint64_t)(tv.tv_sec) * 1000 * 1000 + */
+                /* (uint64_t)(tv.tv_usec); */
 
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
             //                 "!!!! client ip %s", current_conn->client_ip);
 
             //ip to int
-            inet_pton(AF_INET, current_conn->client_ip, &client_ip);
+            /* inet_pton(AF_INET, current_conn->client_ip, &client_ip); */
+            char client_ip_addr[APRMAXHOSTLEN];
+            apr_sockaddr_t *sa = NULL;
+            apr_socket_addr_get(&sa, APR_REMOTE, sock);
+            apr_sockaddr_ip_getbuf(client_ip_addr, APRMAXHOSTLEN, sa);
+            inet_pton(AF_INET, client_ip_addr, &client_ip);
 
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
             //                 "[+] %lu: %lu start", client_ip, start_us);
@@ -648,12 +653,12 @@ static void child_main(int child_num_arg, int child_bucket)
                 rule.isolation_level = 100;
                 rule.priority = 0;
                 psandbox = create_psandbox(rule);
-                // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                //             "!!!! psandbox create %d", psandbox);
+                /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "!!!! psandbox create %d", psandbox); */
             } else {
                 psandbox = bind_psandbox(client_ip);
-                // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                //             "!!!! psandbox bind  %d", psandbox);
+                /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "!!!! psandbox bind  %d", psandbox); */
             }
             activate_psandbox(psandbox);
 
@@ -669,6 +674,9 @@ static void child_main(int child_num_arg, int child_bucket)
             current_conn->current_thread = thd;
 #endif
             ap_process_connection(current_conn, csd);
+            // unbind before existing
+            unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
+
             ap_lingering_close(current_conn);
         }
 
@@ -688,16 +696,14 @@ static void child_main(int child_num_arg, int child_bucket)
             die_now = 1;
         }
 
-        gettimeofday(&tv, NULL);
-        end_us =
-            (uint64_t)(tv.tv_sec) * 1000 * 1000 +
-            (uint64_t)(tv.tv_usec);
-        // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-        //                     "[+] %lu: %lu end", client_ip, end_us);
-        ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-                            "[+] %lu, %lu", client_ip, end_us - start_us);
+        /* gettimeofday(&tv, NULL); */
+        /* end_us = */
+            /* (uint64_t)(tv.tv_sec) * 1000 * 1000 + */
+            /* (uint64_t)(tv.tv_usec); */
+        /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "[+] %lu, %lu", client_ip, end_us - start_us); */
 
-        int ret = unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
+        /* int ret = unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT); */
         /* int ret = unbind_psandbox(client_ip, psandbox, UNBIND_NONE); */
 
         // release_psandbox(psandbox);
