@@ -636,12 +636,7 @@ static void child_main(int child_num_arg, int child_bucket)
             //                 "!!!! client ip %s", current_conn->client_ip);
 
             //ip to int
-            /* inet_pton(AF_INET, current_conn->client_ip, &client_ip); */
-            char client_ip_addr[APRMAXHOSTLEN];
-            apr_sockaddr_t *sa = NULL;
-            apr_socket_addr_get(&sa, APR_REMOTE, sock);
-            apr_sockaddr_ip_getbuf(client_ip_addr, APRMAXHOSTLEN, sa);
-            inet_pton(AF_INET, client_ip_addr, &client_ip);
+             inet_pton(AF_INET, current_conn->client_ip, &client_ip); 
 
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
             //                 "[+] %lu: %lu start", client_ip, start_us);
