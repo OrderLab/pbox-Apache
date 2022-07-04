@@ -626,12 +626,6 @@ static void child_main(int child_num_arg, int child_bucket)
 
 
         if (current_conn) {
-
-            /* gettimeofday(&tv, NULL); */
-            /* start_us = */
-                /* (uint64_t)(tv.tv_sec) * 1000 * 1000 + */
-                /* (uint64_t)(tv.tv_usec); */
-
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
             //                 "!!!! client ip %s", current_conn->client_ip);
 
@@ -657,12 +651,6 @@ static void child_main(int child_num_arg, int child_bucket)
             }
             activate_psandbox(psandbox);
 
-            // IsolationRule rule;
-            // rule.type = RELATIVE;
-            // rule.isolation_level = 50;
-            // rule.priority = 0;
-            // psandbox = create_psandbox(rule);
-            // activate_psandbox(psandbox);
 
 
 #if APR_HAS_THREADS
