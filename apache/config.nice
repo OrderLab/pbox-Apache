@@ -1,0 +1,11 @@
+#! /bin/sh
+#
+# Created by configure
+
+"./configure" \
+"--prefix=/home/yigonghu/software/httpd/apache/../dist" \
+"--with-included-apr" \
+"--enable-so" \
+"--enable-cgi" \
+"--with-mpm=prefork" \
+"$@"
