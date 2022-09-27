@@ -72,6 +72,9 @@
 #include <signal.h>
 #include <limits.h>             /* for INT_MAX */
 
+#include <arpa/inet.h>
+#include "psandbox.h"
+
 /* Limit on the total --- clients will be locked out if more servers than
  * this are needed.  It is intended solely to keep the server from crashing
  * when things get out of hand.
@@ -470,6 +473,14 @@ static void process_socket(apr_thread_t *thd, apr_pool_t *p, apr_socket_t *sock,
     long conn_id = ID_FROM_CHILD_THREAD(my_child_num, my_thread_num);
     ap_sb_handle_t *sbh;
 
+    int psandbox, ret;
+    size_t client_ip;
+    char client_ip_addr[APRMAXHOSTLEN];
+    apr_sockaddr_t *sa = NULL;
+    apr_socket_addr_get(&sa, APR_REMOTE, sock);
+    ret = apr_sockaddr_ip_getbuf(client_ip_addr, APRMAXHOSTLEN, sa);
+    inet_pton(AF_INET, client_ip_addr, &client_ip);
+
     ap_create_sb_handle(&sbh, p, my_child_num, my_thread_num);
 
     current_conn = ap_run_create_connection(p, ap_server_conf, sock,
@@ -477,6 +488,13 @@ static void process_socket(apr_thread_t *thd, apr_pool_t *p, apr_socket_t *sock,
     if (current_conn) {
         current_conn->current_thread = thd;
         ap_process_connection(current_conn, sock);
+
+        psandbox = get_current_psandbox();
+        // unhold the queue, update event
+        update_psandbox(worker_queue, UNHOLD_IN_QUEUE_PENALTY);
+        // tell kernel to take action in the kernel accept queue
+        unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
+
         ap_lingering_close(current_conn);
     }
 }
@@ -566,6 +584,7 @@ static void * APR_THREAD_FUNC listener_thread(apr_thread_t *thd, void * dummy)
         if (listener_may_exit) break;
 
         if (!have_idle_worker) {
+            //XXX wait for idler
             rv = ap_queue_info_wait_for_idler(worker_queue_info, NULL);
             if (APR_STATUS_IS_EOF(rv)) {
                 break; /* we've been signaled to die now */
@@ -674,7 +693,44 @@ static void * APR_THREAD_FUNC listener_thread(apr_thread_t *thd, void * dummy)
                 }
                 accept_mutex_error("unlock", rv, process_slot);
             }
+
             if (csd != NULL) {
+
+                int psandbox, ret;
+                size_t client_ip;
+                char client_ip_addr[APRMAXHOSTLEN];
+                apr_sockaddr_t *sa = NULL;
+                apr_socket_addr_get(&sa, APR_REMOTE, (apr_socket_t *) csd);
+                ret = apr_sockaddr_ip_getbuf(client_ip_addr, APRMAXHOSTLEN, sa);
+                inet_pton(AF_INET, client_ip_addr, &client_ip);
+
+                if (ret != APR_SUCCESS) {
+                    ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                                 "apr_sockaddr_ip_getbuf failed");
+                }
+
+                ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                             "---- push IP %s, %u", client_ip_addr, client_ip);
+
+                psandbox = get_psandbox(client_ip);
+                if (psandbox == -1) {
+                    IsolationRule rule;
+                    rule.type = RELATIVE;
+                    rule.isolation_level = 100;
+                    rule.priority = 0;
+                    psandbox = create_psandbox(rule);
+                    // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                    //             "!!!! psandbox create %d", psandbox);
+                } else {
+                    psandbox = bind_psandbox(client_ip);
+                    // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+                    //             "!!!! psandbox bind  %d", psandbox);
+                }
+                activate_psandbox(psandbox);
+                // prepare to enter queue, update event
+                update_psandbox(worker_queue, PREPARE);
+                unbind_psandbox(client_ip, psandbox, UNBIND_ACT_UNFINISHED);
+
                 rv = ap_queue_push_socket(worker_queue, csd, NULL, ptrans);
                 if (rv) {
                     /* trash the connection; we couldn't queue the connected
@@ -802,10 +858,33 @@ worker_pop:
             }
             continue;
         }
+
+        int psandbox, ret;
+        size_t client_ip;
+        char client_ip_addr[APRMAXHOSTLEN];
+        apr_sockaddr_t *sa = NULL;
+        apr_socket_addr_get(&sa, APR_REMOTE, (apr_socket_t *) csd);
+        ret = apr_sockaddr_ip_getbuf(client_ip_addr, APRMAXHOSTLEN, sa);
+        inet_pton(AF_INET, client_ip_addr, &client_ip);
+
+        /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                     /* "---- pop ip %s, %u", client_ip_addr, client_ip); */
+
+        psandbox = bind_psandbox(client_ip);
+        // enter queue, update event
+        update_psandbox(worker_queue, ENTER);
+        update_psandbox(worker_queue, HOLD);
+
         is_idle = 0;
         worker_sockets[thread_slot] = csd;
         bucket_alloc = apr_bucket_alloc_create(ptrans);
         process_socket(thd, ptrans, csd, process_slot, thread_slot, bucket_alloc);
+
+        /* // unhold the queue, update event */
+        /* update_psandbox(worker_queue, UNHOLD_IN_QUEUE_PENALTY); */
+        /* // tell kernel to take action in the kernel accept queue */
+        /* unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT); */
+
         worker_sockets[thread_slot] = NULL;
         requests_this_child--;
         apr_pool_clear(ptrans);
@@ -1178,7 +1257,7 @@ static void child_main(int child_num_arg, int child_bucket)
         if (rv != APR_SUCCESS && rv != APR_ENOTIMPL) {
             ap_log_error(APLOG_MARK, APLOG_WARNING, rv, ap_server_conf, APLOGNO(02435)
                          "WARNING: ThreadStackSize of %" APR_SIZE_T_FMT " is "
-                         "inappropriate, using default", 
+                         "inappropriate, using default",
                          ap_thread_stacksize);
         }
     }
@@ -1577,7 +1656,7 @@ static void server_main_loop(int remaining_children_to_start, int num_buckets)
             child_slot = ap_find_child_by_pid(&pid);
             if (processed_status == APEXIT_CHILDFATAL) {
                 /* fix race condition found in PR 39311
-                 * A child created at the same time as a graceful happens 
+                 * A child created at the same time as a graceful happens
                  * can find the lock missing and create a fatal error.
                  * It is not fatal for the last generation to be in this state.
                  */

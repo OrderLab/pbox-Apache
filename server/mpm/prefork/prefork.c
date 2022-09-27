@@ -49,6 +49,7 @@
 #include "apr_poll.h"
 
 #include <stdlib.h>
+#include "psandbox.h"
 
 #ifdef HAVE_TIME_H
 #include <time.h>
@@ -376,6 +377,8 @@ static void stop_listening(int sig)
 static int requests_this_child;
 static int num_listensocks = 0;
 
+#include <arpa/inet.h>
+#include <sys/time.h>
 static void child_main(int child_num_arg, int child_bucket)
 {
 #if APR_HAS_THREADS
@@ -513,12 +516,14 @@ static void child_main(int child_num_arg, int child_bucket)
 
         (void) ap_update_child_status(sbh, SERVER_READY, (request_rec *) NULL);
 
+
         /*
          * Wait for an acceptable connection to arrive.
          */
 
         /* Lock around "accept", if necessary */
         SAFE_ACCEPT(accept_mutex_on());
+
 
         if (num_listensocks == 1) {
             /* There is only one listener record, so refer to that one. */
@@ -594,6 +599,7 @@ static void child_main(int child_num_arg, int child_bucket)
 
         SAFE_ACCEPT(accept_mutex_off());      /* unlock after "accept" */
 
+
         if (status == APR_EGENERAL) {
             /* resource shortage or should-not-occur occurred */
             clean_child_exit(APEXIT_CHILDSICK);
@@ -608,11 +614,52 @@ static void child_main(int child_num_arg, int child_bucket)
          */
 
         current_conn = ap_run_create_connection(ptrans, ap_server_conf, csd, my_child_num, sbh, bucket_alloc);
+
+
+        int psandbox;
+        size_t client_ip;
+        struct timeval tv;
+        uint64_t start_us, end_us;
+
+        // psandbox = create_psandbox();
+        // active_psandbox(psandbox);
+
+
         if (current_conn) {
+            // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //                 "!!!! client ip %s", current_conn->client_ip);
+
+            //ip to int
+             inet_pton(AF_INET, current_conn->client_ip, &client_ip); 
+
+            // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
+            //                 "[+] %lu: %lu start", client_ip, start_us);
+
+            psandbox = get_psandbox(client_ip);
+            if (psandbox == -1) {
+                IsolationRule rule;
+                rule.type = RELATIVE;
+                rule.isolation_level = 100;
+                rule.priority = 0;
+                psandbox = create_psandbox(rule);
+                /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "!!!! psandbox create %d", psandbox); */
+            } else {
+                psandbox = bind_psandbox(client_ip);
+                /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "!!!! psandbox bind  %d", psandbox); */
+            }
+            activate_psandbox(psandbox);
+
+
+
 #if APR_HAS_THREADS
             current_conn->current_thread = thd;
 #endif
             ap_process_connection(current_conn, csd);
+            // unbind before existing
+            unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
+
             ap_lingering_close(current_conn);
         }
 
@@ -631,6 +678,18 @@ static void child_main(int child_num_arg, int child_bucket)
              */
             die_now = 1;
         }
+
+        /* gettimeofday(&tv, NULL); */
+        /* end_us = */
+            /* (uint64_t)(tv.tv_sec) * 1000 * 1000 + */
+            /* (uint64_t)(tv.tv_usec); */
+        /* ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161) */
+                            /* "[+] %lu, %lu", client_ip, end_us - start_us); */
+
+        /* int ret = unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT); */
+        /* int ret = unbind_psandbox(client_ip, psandbox, UNBIND_NONE); */
+
+        // release_psandbox(psandbox);
     }
     apr_pool_clear(ptrans); /* kludge to avoid crash in APR reslist cleanup code */
     clean_child_exit(0);
