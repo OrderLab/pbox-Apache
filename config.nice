@@ -1,8 +1,0 @@
-#! /bin/sh
-#
-# Created by configure
-
-"./configure" \
-"--prefix=/home/chandy/project/psandbox/apache/apache2" \
-"--with-included-apr" \
-"$@"
