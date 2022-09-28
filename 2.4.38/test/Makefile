@@ -1,8 +1,8 @@
-top_srcdir   = /home/yigonghu/software/httpd/apache
-top_builddir = /home/yigonghu/software/httpd/apache
-srcdir       = /home/yigonghu/software/httpd/apache/test
-builddir     = /home/yigonghu/software/httpd/apache/test
-VPATH        = /home/yigonghu/software/httpd/apache/test
+top_srcdir   = /home/yigonghu/software/httpd/2.4.38
+top_builddir = /home/yigonghu/software/httpd/2.4.38
+srcdir       = /home/yigonghu/software/httpd/2.4.38/test
+builddir     = /home/yigonghu/software/httpd/2.4.38/test
+VPATH        = /home/yigonghu/software/httpd/2.4.38/test
 
 # no targets: we don't want to build anything by default. if you want the
 # test programs, then "make test"

@@ -24,9 +24,9 @@
 #
 # Configuration variables
 #
-apr_builddir=/home/yigonghu/software/httpd/apache/../dist/build
-apr_builders=/home/yigonghu/software/httpd/apache/../dist/build
-top_builddir=/home/yigonghu/software/httpd/apache/../dist/build
+apr_builddir=/home/yigonghu/software/httpd/2.4.38/../dist/build
+apr_builders=/home/yigonghu/software/httpd/2.4.38/../dist/build
+top_builddir=/home/yigonghu/software/httpd/2.4.38/../dist/build
 
 # Some layouts require knowing what version we are at.
 APR_MAJOR_VERSION=1

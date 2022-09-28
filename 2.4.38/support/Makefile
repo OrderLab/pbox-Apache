@@ -1,8 +1,8 @@
-top_srcdir   = /home/yigonghu/software/httpd/apache
-top_builddir = /home/yigonghu/software/httpd/apache
-srcdir       = /home/yigonghu/software/httpd/apache/support
-builddir     = /home/yigonghu/software/httpd/apache/support
-VPATH        = /home/yigonghu/software/httpd/apache/support
+top_srcdir   = /home/yigonghu/software/httpd/2.4.38
+top_builddir = /home/yigonghu/software/httpd/2.4.38
+srcdir       = /home/yigonghu/software/httpd/2.4.38/support
+builddir     = /home/yigonghu/software/httpd/2.4.38/support
+VPATH        = /home/yigonghu/software/httpd/2.4.38/support
 DISTCLEAN_TARGETS = apxs apachectl dbmmanage log_server_status \
 	logresolve.pl phf_abuse_log.cgi split-logfile envvars-std
 

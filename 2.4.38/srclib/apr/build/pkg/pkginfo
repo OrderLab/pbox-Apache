@@ -6,6 +6,6 @@ CATEGORY="application"
 VENDOR="Apache Software Foundation"
 EMAIL="dev@apr.apache.org"
 PSTAMP="dev@apr.apache.org"
-BASEDIR="/home/yigonghu/software/httpd/apache/../dist"
+BASEDIR="/home/yigonghu/software/httpd/2.4.38/../dist"
 CLASSES="none"
 

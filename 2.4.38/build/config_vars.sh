@@ -27,19 +27,19 @@
 # installation when using *external* copies of apr/apr-util,
 # the absolute path must be used, not DESTDIR-relocated.
 
-if test -f ${DESTDIR}/home/yigonghu/software/httpd/apache/../dist/bin/apr-1-config; then
-   APR_CONFIG=${DESTDIR}/home/yigonghu/software/httpd/apache/../dist/bin/apr-1-config
-   APU_CONFIG=${DESTDIR}/home/yigonghu/software/httpd/apache/../dist/bin/apu-1-config
+if test -f ${DESTDIR}/home/yigonghu/software/httpd/2.4.38/../dist/bin/apr-1-config; then
+   APR_CONFIG=${DESTDIR}/home/yigonghu/software/httpd/2.4.38/../dist/bin/apr-1-config
+   APU_CONFIG=${DESTDIR}/home/yigonghu/software/httpd/2.4.38/../dist/bin/apu-1-config
 else
-   APR_CONFIG=/home/yigonghu/software/httpd/apache/../dist/bin/apr-1-config
-   APU_CONFIG=/home/yigonghu/software/httpd/apache/../dist/bin/apu-1-config
+   APR_CONFIG=/home/yigonghu/software/httpd/2.4.38/../dist/bin/apr-1-config
+   APU_CONFIG=/home/yigonghu/software/httpd/2.4.38/../dist/bin/apu-1-config
 fi
 
 APR_LIBTOOL="`${APR_CONFIG} --apr-libtool`"
 APR_INCLUDEDIR="`${APR_CONFIG} --includedir`"
-test -n "/home/yigonghu/software/httpd/apache/../dist/bin/apu-1-config" && APU_INCLUDEDIR="`${APU_CONFIG} --includedir`"
+test -n "/home/yigonghu/software/httpd/2.4.38/../dist/bin/apu-1-config" && APU_INCLUDEDIR="`${APU_CONFIG} --includedir`"
 
-installbuilddir="/home/yigonghu/software/httpd/apache/../dist/build"
+installbuilddir="/home/yigonghu/software/httpd/2.4.38/../dist/build"
 
 exec sed "
 /^[A-Z0-9_]*_LDADD/d

@@ -3,7 +3,7 @@
 # Created by configure
 
 "./configure" \
-"--prefix=/home/yigonghu/software/httpd/apache/../dist" \
+"--prefix=/home/yigonghu/software/httpd/2.4.38/../dist" \
 "--with-included-apr" \
 "--enable-so" \
 "--enable-cgi" \

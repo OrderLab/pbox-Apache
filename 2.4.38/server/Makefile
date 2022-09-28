@@ -1,8 +1,8 @@
-top_srcdir   = /home/yigonghu/software/httpd/apache
-top_builddir = /home/yigonghu/software/httpd/apache
-srcdir       = /home/yigonghu/software/httpd/apache/server
-builddir     = /home/yigonghu/software/httpd/apache/server
-VPATH        = /home/yigonghu/software/httpd/apache/server
+top_srcdir   = /home/yigonghu/software/httpd/2.4.38
+top_builddir = /home/yigonghu/software/httpd/2.4.38
+srcdir       = /home/yigonghu/software/httpd/2.4.38/server
+builddir     = /home/yigonghu/software/httpd/2.4.38/server
+VPATH        = /home/yigonghu/software/httpd/2.4.38/server
 
 CLEAN_TARGETS = gen_test_char test_char.h \
 	ApacheCoreOS2.def httpd.exp export_files \

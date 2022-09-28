@@ -1,8 +1,8 @@
-top_srcdir   = /home/yigonghu/software/httpd/apache
-top_builddir = /home/yigonghu/software/httpd/apache
-srcdir       = /home/yigonghu/software/httpd/apache/modules/ssl
-builddir     = /home/yigonghu/software/httpd/apache/modules/ssl
-VPATH        = /home/yigonghu/software/httpd/apache/modules/ssl
+top_srcdir   = /home/yigonghu/software/httpd/2.4.38
+top_builddir = /home/yigonghu/software/httpd/2.4.38
+srcdir       = /home/yigonghu/software/httpd/2.4.38/modules/ssl
+builddir     = /home/yigonghu/software/httpd/2.4.38/modules/ssl
+VPATH        = /home/yigonghu/software/httpd/2.4.38/modules/ssl
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.

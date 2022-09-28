@@ -42,11 +42,11 @@ ARGV="$@"
 # --------------------                              --------------------
 # 
 # the path to your httpd binary, including options if necessary
-HTTPD='/home/yigonghu/software/httpd/apache/../dist/bin/httpd'
+HTTPD='/home/yigonghu/software/httpd/2.4.38/../dist/bin/httpd'
 #
 # pick up any necessary environment variables
-if test -f /home/yigonghu/software/httpd/apache/../dist/bin/envvars; then
-  . /home/yigonghu/software/httpd/apache/../dist/bin/envvars
+if test -f /home/yigonghu/software/httpd/2.4.38/../dist/bin/envvars; then
+  . /home/yigonghu/software/httpd/2.4.38/../dist/bin/envvars
 fi
 #
 # a command that outputs a formatted text version of the HTML at the

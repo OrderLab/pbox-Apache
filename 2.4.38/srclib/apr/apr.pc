@@ -1,8 +1,8 @@
-prefix=/home/yigonghu/software/httpd/apache/../dist
-exec_prefix=/home/yigonghu/software/httpd/apache/../dist
+prefix=/home/yigonghu/software/httpd/2.4.38/../dist
+exec_prefix=/home/yigonghu/software/httpd/2.4.38/../dist
 libdir=${prefix}/lib
 APR_MAJOR_VERSION=1
-includedir=/home/yigonghu/software/httpd/apache/../dist/include
+includedir=/home/yigonghu/software/httpd/2.4.38/../dist/include
 
 Name: APR
 Description: The Apache Portable Runtime library

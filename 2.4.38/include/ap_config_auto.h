@@ -249,7 +249,7 @@
 /* #undef HAVE_VSYSLOG */
 
 /* Root directory of the Apache install area */
-#define HTTPD_ROOT "/home/yigonghu/software/httpd/apache/../dist"
+#define HTTPD_ROOT "/home/yigonghu/software/httpd/2.4.38/../dist"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT ""

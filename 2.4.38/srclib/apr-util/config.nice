@@ -2,18 +2,18 @@
 #
 # Created by configure
 
-"/home/yigonghu/software/httpd/apache/srclib/apr-util/configure" \
+"/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/configure" \
 "--disable-option-checking" \
 "--with-included-apr" \
 "--enable-so" \
 "--enable-cgi" \
 "--with-mpm=prefork" \
 "--cache-file=/dev/null" \
-"--srcdir=/home/yigonghu/software/httpd/apache/srclib/apr-util" \
+"--srcdir=/home/yigonghu/software/httpd/2.4.38/srclib/apr-util" \
 "--with-apr=../apr" \
-"--prefix=/home/yigonghu/software/httpd/apache/../dist" \
-"--exec-prefix=/home/yigonghu/software/httpd/apache/../dist" \
-"--libdir=/home/yigonghu/software/httpd/apache/../dist/lib" \
-"--includedir=/home/yigonghu/software/httpd/apache/../dist/include" \
-"--bindir=/home/yigonghu/software/httpd/apache/../dist/bin" \
+"--prefix=/home/yigonghu/software/httpd/2.4.38/../dist" \
+"--exec-prefix=/home/yigonghu/software/httpd/2.4.38/../dist" \
+"--libdir=/home/yigonghu/software/httpd/2.4.38/../dist/lib" \
+"--includedir=/home/yigonghu/software/httpd/2.4.38/../dist/include" \
+"--bindir=/home/yigonghu/software/httpd/2.4.38/../dist/bin" \
 "$@"

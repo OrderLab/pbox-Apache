@@ -19,9 +19,9 @@
 # This file is generated from envvars-std.in
 #
 if test "x$LD_LIBRARY_PATH" != "x" ; then
-  LD_LIBRARY_PATH="/home/yigonghu/software/httpd/apache/../dist/lib:$LD_LIBRARY_PATH"
+  LD_LIBRARY_PATH="/home/yigonghu/software/httpd/2.4.38/../dist/lib:$LD_LIBRARY_PATH"
 else
-  LD_LIBRARY_PATH="/home/yigonghu/software/httpd/apache/../dist/lib"
+  LD_LIBRARY_PATH="/home/yigonghu/software/httpd/2.4.38/../dist/lib"
 fi
 export LD_LIBRARY_PATH
 #

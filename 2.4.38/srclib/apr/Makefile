@@ -1,8 +1,8 @@
 
 srcdir=.
 
-top_srcdir=/home/yigonghu/software/httpd/apache/srclib/apr
-top_blddir=/home/yigonghu/software/httpd/apache/srclib/apr
+top_srcdir=/home/yigonghu/software/httpd/2.4.38/srclib/apr
+top_blddir=/home/yigonghu/software/httpd/2.4.38/srclib/apr
 
 #
 # APR (Apache Portable Runtime) library Makefile.
@@ -41,8 +41,8 @@ TARGETS = $(TARGET_LIB) include/private/apr_escape_test_char.h apr.exp apr-confi
 LT_VERSION = -version-info 6:5:6
 
 # bring in rules.mk for standard functionality
-include /home/yigonghu/software/httpd/apache/srclib/apr/build/apr_rules.mk
-include /home/yigonghu/software/httpd/apache/srclib/apr/build-outputs.mk
+include /home/yigonghu/software/httpd/2.4.38/srclib/apr/build/apr_rules.mk
+include /home/yigonghu/software/httpd/2.4.38/srclib/apr/build-outputs.mk
 
 CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c .make.dirs \
 	build/apr_rules.out tools/gen_test_char \
@@ -58,12 +58,12 @@ EXTRACLEAN_TARGETS = configure aclocal.m4 include/arch/unix/apr_private.h.in \
 	build/argz.m4 build/libtool.m4 build/ltoptions.m4 \
 	build/ltsugar.m4 build/ltversion.m4 build/lt~obsolete.m4
 
-prefix=/home/yigonghu/software/httpd/apache/../dist
-exec_prefix=/home/yigonghu/software/httpd/apache/../dist
+prefix=/home/yigonghu/software/httpd/2.4.38/../dist
+exec_prefix=/home/yigonghu/software/httpd/2.4.38/../dist
 bindir=${prefix}/bin
 libdir=${prefix}/lib
-includedir=/home/yigonghu/software/httpd/apache/../dist/include
-datadir=/home/yigonghu/software/httpd/apache/../dist
+includedir=/home/yigonghu/software/httpd/2.4.38/../dist/include
+datadir=/home/yigonghu/software/httpd/2.4.38/../dist
 installbuilddir=${prefix}/build
 
 # Create apr-config script suitable for the install tree

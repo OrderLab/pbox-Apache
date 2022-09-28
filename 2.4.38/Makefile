@@ -1,8 +1,8 @@
-top_srcdir   = /home/yigonghu/software/httpd/apache
-top_builddir = /home/yigonghu/software/httpd/apache
-srcdir       = /home/yigonghu/software/httpd/apache
-builddir     = /home/yigonghu/software/httpd/apache
-VPATH        = /home/yigonghu/software/httpd/apache
+top_srcdir   = /home/yigonghu/software/httpd/2.4.38
+top_builddir = /home/yigonghu/software/httpd/2.4.38
+srcdir       = /home/yigonghu/software/httpd/2.4.38
+builddir     = /home/yigonghu/software/httpd/2.4.38
+VPATH        = /home/yigonghu/software/httpd/2.4.38
 
 SUBDIRS = srclib os server modules support
 CLEAN_SUBDIRS = test

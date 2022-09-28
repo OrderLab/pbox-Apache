@@ -21,11 +21,11 @@
 APRUTIL_MAJOR_VERSION="1"
 APRUTIL_DOTTED_VERSION="1.6.1"
 
-prefix="/home/yigonghu/software/httpd/apache/../dist"
-exec_prefix="/home/yigonghu/software/httpd/apache/../dist"
+prefix="/home/yigonghu/software/httpd/2.4.38/../dist"
+exec_prefix="/home/yigonghu/software/httpd/2.4.38/../dist"
 bindir="${prefix}/bin"
 libdir="${prefix}/lib"
-includedir="/home/yigonghu/software/httpd/apache/../dist/include"
+includedir="/home/yigonghu/software/httpd/2.4.38/../dist/include"
 
 LIBS="-lexpat"
 INCLUDES=""
@@ -35,8 +35,8 @@ DBM_LIBS="  "
 
 APRUTIL_LIBNAME="aprutil-${APRUTIL_MAJOR_VERSION}"
 
-APU_SOURCE_DIR="/home/yigonghu/software/httpd/apache/srclib/apr-util"
-APU_BUILD_DIR="/home/yigonghu/software/httpd/apache/srclib/apr-util"
+APU_SOURCE_DIR="/home/yigonghu/software/httpd/2.4.38/srclib/apr-util"
+APU_BUILD_DIR="/home/yigonghu/software/httpd/2.4.38/srclib/apr-util"
 APR_XML_EXPAT_OLD="@APR_XML_EXPAT_OLD@"
 APU_DB_VERSION="0"
 

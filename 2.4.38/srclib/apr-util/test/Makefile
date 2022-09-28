@@ -10,7 +10,7 @@ srcdir = .
 #   programs such as sockperf, that have to be invoked in a special sequence
 #   or with special parameters
 
-INCLUDES = -I/home/yigonghu/software/httpd/apache/srclib/apr-util/include -I/home/yigonghu/software/httpd/apache/srclib/apr-util/include/private -I/home/yigonghu/software/postgresql/dist/include  -I/home/yigonghu/software/httpd/apache/srclib/apr/include  
+INCLUDES = -I/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/include -I/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/include/private -I/home/yigonghu/software/postgresql/dist/include  -I/home/yigonghu/software/httpd/2.4.38/srclib/apr/include  
 
 STDTEST_PORTABLE = dbd testall
 
@@ -28,8 +28,8 @@ LOCAL_LIBS = ../libaprutil-${APRUTIL_MAJOR_VERSION}1.la
 CLEAN_TARGETS = manyfile.bin testfile.txt data/sqlite*.db
 
 # bring in rules.mk for standard functionality
-include /home/yigonghu/software/httpd/apache/srclib/apr-util/build/rules.mk
-APRUTIL_LIBS = -lexpat /home/yigonghu/software/httpd/apache/srclib/apr/libapr-1.la -luuid -lrt -lcrypt -lpthread -ldl
+include /home/yigonghu/software/httpd/2.4.38/srclib/apr-util/build/rules.mk
+APRUTIL_LIBS = -lexpat /home/yigonghu/software/httpd/2.4.38/srclib/apr/libapr-1.la -luuid -lrt -lcrypt -lpthread -ldl
 APRUTIL_LDFLAGS = $(ALL_LDFLAGS) -no-install 
 
 # link programs using -no-install to get real executables not

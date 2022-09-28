@@ -10,9 +10,9 @@ APRUTIL_DOTTED_VERSION=1.6.1
 srcdir = .
 
 
-INCLUDES = -I/home/yigonghu/software/httpd/apache/srclib/apr-util/include -I/home/yigonghu/software/httpd/apache/srclib/apr-util/include/private -I/home/yigonghu/software/postgresql/dist/include  -I/home/yigonghu/software/httpd/apache/srclib/apr/include  
+INCLUDES = -I/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/include -I/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/include/private -I/home/yigonghu/software/postgresql/dist/include  -I/home/yigonghu/software/httpd/2.4.38/srclib/apr/include  
 APRUTIL_LDFLAGS = 
-APRUTIL_LIBS = -lexpat /home/yigonghu/software/httpd/apache/srclib/apr/libapr-1.la -luuid -lrt -lcrypt -lpthread -ldl
+APRUTIL_LIBS = -lexpat /home/yigonghu/software/httpd/2.4.38/srclib/apr/libapr-1.la -luuid -lrt -lcrypt -lpthread -ldl
 
 TARGET_LIB = libaprutil-${APRUTIL_MAJOR_VERSION}.la
 INSTALL_SUBDIRS = 
@@ -47,8 +47,8 @@ LDADD_crypto_commoncrypto =
 TARGETS = $(TARGET_LIB) aprutil.exp apu-config.out $(APU_MODULES)
 
 # bring in rules.mk for standard functionality
-include /home/yigonghu/software/httpd/apache/srclib/apr-util/build/rules.mk
-include /home/yigonghu/software/httpd/apache/srclib/apr-util/build-outputs.mk
+include /home/yigonghu/software/httpd/2.4.38/srclib/apr-util/build/rules.mk
+include /home/yigonghu/software/httpd/2.4.38/srclib/apr-util/build-outputs.mk
 
 CLEAN_SUBDIRS = test 
 
@@ -63,13 +63,13 @@ EXTRACLEAN_TARGETS = configure aclocal.m4 include/private/apu_config.h.in \
 	build/apr_common.m4 build/find_apr.m4 build/install.sh \
 	build/config.guess build/config.sub
 
-prefix=/home/yigonghu/software/httpd/apache/../dist
-exec_prefix=/home/yigonghu/software/httpd/apache/../dist
+prefix=/home/yigonghu/software/httpd/2.4.38/../dist
+exec_prefix=/home/yigonghu/software/httpd/2.4.38/../dist
 bindir=${prefix}/bin
 libdir=${prefix}/lib
-includedir=/home/yigonghu/software/httpd/apache/../dist/include
-top_srcdir=/home/yigonghu/software/httpd/apache/srclib/apr-util
-top_blddir=/home/yigonghu/software/httpd/apache/srclib/apr-util
+includedir=/home/yigonghu/software/httpd/2.4.38/../dist/include
+top_srcdir=/home/yigonghu/software/httpd/2.4.38/srclib/apr-util
+top_blddir=/home/yigonghu/software/httpd/2.4.38/srclib/apr-util
 
 # Create apu-config script suitable for the install tree
 apu-config.out: $(APU_CONFIG)
