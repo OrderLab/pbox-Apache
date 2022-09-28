@@ -34,13 +34,6 @@ PATH: /home/yigonghu/software/memcached/mutilate
 PATH: /home/yigonghu/software/memcached/dist/bin
 PATH: /home/yigonghu/software/postgresql/dist/bin
 PATH: /home/yigonghu/software/sysbench/dist/bin
-PATH: /home/yigonghu/software/apache/dist/bin
-PATH: /home/yigonghu/software/mysql/dist/bin
-PATH: /home/yigonghu/software/memcached/benchmark/bin
-PATH: /home/yigonghu/software/memcached/mutilate
-PATH: /home/yigonghu/software/memcached/dist/bin
-PATH: /home/yigonghu/software/postgresql/dist/bin
-PATH: /home/yigonghu/software/sysbench/dist/bin
 PATH: /usr/local/bin
 PATH: /usr/bin
 PATH: /bin
@@ -583,7 +576,7 @@ configure:19585: $? = 0
 configure:19602: result: none required
 configure:19610: checking for library containing crypt
 configure:19641: gcc -o conftest -g -O2 -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c  >&5
-/usr/bin/ld: /tmp/cc6ASPWk.o: in function `main':
+/usr/bin/ld: /tmp/cczTjOXA.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:38: undefined reference to `crypt'
 collect2: error: ld returned 1 exit status
 configure:19641: $? = 1
@@ -693,7 +686,7 @@ configure:19777: checking for pthread.h
 configure:19777: result: yes
 configure:19825: checking for CFLAGS needed for pthreads
 configure:19857: gcc -o conftest -g -O2 -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lcrypt  >&5
-/usr/bin/ld: /tmp/cc3jYDGJ.o: in function `main':
+/usr/bin/ld: /tmp/ccS86MUY.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:41: undefined reference to `pthread_mutexattr_init'
 /usr/bin/ld: /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:42: undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
@@ -1189,7 +1182,7 @@ configure:20958: $? = 0
 configure:20958: result: yes
 configure:20958: checking for kqueue
 configure:20958: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccE2ENQe.o: in function `main':
+/usr/bin/ld: /tmp/ccw8nPMy.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:75: undefined reference to `kqueue'
 collect2: error: ld returned 1 exit status
 configure:20958: $? = 1
@@ -1275,7 +1268,7 @@ configure: failed program was:
 configure:20958: result: no
 configure:20958: checking for port_create
 configure:20958: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccLqOqIm.o: in function `main':
+/usr/bin/ld: /tmp/ccqAeyOG.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:75: undefined reference to `port_create'
 collect2: error: ld returned 1 exit status
 configure:20958: $? = 1
@@ -1503,7 +1496,7 @@ configure:21469: $? = 0
 configure:21469: result: yes
 configure:21483: checking for library containing shm_open
 configure:21514: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/cctosgZk.o: in function `main':
+/usr/bin/ld: /tmp/ccNKCiZJ.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:66: undefined reference to `shm_open'
 collect2: error: ld returned 1 exit status
 configure:21514: $? = 1
@@ -2364,7 +2357,7 @@ configure:21584: $? = 0
 configure:21584: result: yes
 configure:21584: checking for create_area
 configure:21584: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/cc9BfS3d.o: in function `main':
+/usr/bin/ld: /tmp/cc75wHHt.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:104: undefined reference to `create_area'
 collect2: error: ld returned 1 exit status
 configure:21584: $? = 1
@@ -2812,7 +2805,7 @@ configure:22638: $? = 0
 configure:22638: result: yes
 configure:22638: checking for send_file
 configure:22638: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccrOidoF.o: in function `main':
+/usr/bin/ld: /tmp/cc5BUan4.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:127: undefined reference to `send_file'
 collect2: error: ld returned 1 exit status
 configure:22638: $? = 1
@@ -2950,7 +2943,7 @@ configure: failed program was:
 configure:22638: result: no
 configure:22638: checking for sendfilev
 configure:22638: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccXMEw1N.o: in function `main':
+/usr/bin/ld: /tmp/cc3DA7tc.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:127: undefined reference to `sendfilev'
 collect2: error: ld returned 1 exit status
 configure:22638: $? = 1
@@ -3119,7 +3112,7 @@ configure:22848: $? = 0
 configure:22860: result: yes
 configure:22870: checking for _getch
 configure:22870: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccbfWV2g.o: in function `main':
+/usr/bin/ld: /tmp/ccubMPkH.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:130: undefined reference to `_getch'
 collect2: error: ld returned 1 exit status
 configure:22870: $? = 1
@@ -3417,7 +3410,7 @@ configure:22968: $? = 0
 configure:22968: result: yes
 configure:22968: checking for getpassphrase
 configure:22968: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/cccTJgWD.o: in function `main':
+/usr/bin/ld: /tmp/ccNBoX11.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:134: undefined reference to `getpassphrase'
 collect2: error: ld returned 1 exit status
 configure:22968: $? = 1
@@ -11489,7 +11482,7 @@ configure:25063: $? = 0
 configure:25073: result: 16
 configure:25113: checking for strnicmp
 configure:25113: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccoFR9I4.o: in function `main':
+/usr/bin/ld: /tmp/cc3aDq2w.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:197: undefined reference to `strnicmp'
 collect2: error: ld returned 1 exit status
 configure:25113: $? = 1
@@ -11704,7 +11697,7 @@ configure:25126: $? = 0
 configure:25126: result: yes
 configure:25139: checking for stricmp
 configure:25139: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/ccI8iY9h.o: in function `main':
+/usr/bin/ld: /tmp/ccOgX85J.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:198: undefined reference to `stricmp'
 collect2: error: ld returned 1 exit status
 configure:25139: $? = 1
@@ -11945,7 +11938,7 @@ configure:25203: $? = 0
 configure:25203: result: yes
 configure:25347: checking for dlopen
 configure:25347: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread >&5
-/usr/bin/ld: /tmp/cc3WESFS.o: in function `main':
+/usr/bin/ld: /tmp/ccKzPgui.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:204: undefined reference to `dlopen'
 collect2: error: ld returned 1 exit status
 configure:25347: $? = 1
@@ -12638,7 +12631,7 @@ configure:25786: $? = 0
 configure:25786: result: yes
 configure:25786: checking for create_sem
 configure:25786: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/ccvgkZff.o: in function `main':
+/usr/bin/ld: /tmp/ccI91lev.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:215: undefined reference to `create_sem'
 collect2: error: ld returned 1 exit status
 configure:25786: $? = 1
@@ -16544,7 +16537,7 @@ configure:27209: checking for uuid/uuid.h
 configure:27209: result: yes
 configure:27223: checking for library containing uuid_create
 configure:27254: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/ccf2Olkp.o: in function `main':
+/usr/bin/ld: /tmp/ccaM6D4D.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:209: undefined reference to `uuid_create'
 collect2: error: ld returned 1 exit status
 configure:27254: $? = 1
@@ -16762,7 +16755,7 @@ configure: failed program was:
 |   return 0;
 | }
 configure:27254: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -luuid  -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/cc3Kd1ym.o: in function `main':
+/usr/bin/ld: /tmp/cc3OTcWI.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:209: undefined reference to `uuid_create'
 collect2: error: ld returned 1 exit status
 configure:27254: $? = 1
@@ -16982,7 +16975,7 @@ configure: failed program was:
 configure:27271: result: no
 configure:27279: checking for library containing uuid_generate
 configure:27310: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/ccRqP0Vq.o: in function `main':
+/usr/bin/ld: /tmp/ccK0efKR.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:209: undefined reference to `uuid_generate'
 collect2: error: ld returned 1 exit status
 configure:27310: $? = 1
@@ -17204,7 +17197,7 @@ configure:27310: $? = 0
 configure:27327: result: -luuid
 configure:27343: checking for uuid_create
 configure:27343: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -luuid -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/cc6fVYHE.o: in function `main':
+/usr/bin/ld: /tmp/cc7s4wg0.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:232: undefined reference to `uuid_create'
 collect2: error: ld returned 1 exit status
 configure:27343: $? = 1
@@ -18828,7 +18821,7 @@ configure:28436: $? = 0
 configure:28443: result: yes
 configure:28460: checking for set_h_errno
 configure:28460: gcc -o conftest -g -O2 -pthread -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c -luuid -lrt -lcrypt  -lpthread -ldl >&5
-/usr/bin/ld: /tmp/ccD9mXfL.o: in function `main':
+/usr/bin/ld: /tmp/ccsU0Hub.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr/conftest.c:240: undefined reference to `set_h_errno'
 collect2: error: ld returned 1 exit status
 configure:28460: $? = 1

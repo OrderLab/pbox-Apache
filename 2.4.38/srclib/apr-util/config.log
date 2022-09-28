@@ -34,13 +34,6 @@ PATH: /home/yigonghu/software/memcached/mutilate
 PATH: /home/yigonghu/software/memcached/dist/bin
 PATH: /home/yigonghu/software/postgresql/dist/bin
 PATH: /home/yigonghu/software/sysbench/dist/bin
-PATH: /home/yigonghu/software/apache/dist/bin
-PATH: /home/yigonghu/software/mysql/dist/bin
-PATH: /home/yigonghu/software/memcached/benchmark/bin
-PATH: /home/yigonghu/software/memcached/mutilate
-PATH: /home/yigonghu/software/memcached/dist/bin
-PATH: /home/yigonghu/software/postgresql/dist/bin
-PATH: /home/yigonghu/software/sysbench/dist/bin
 PATH: /usr/local/bin
 PATH: /usr/bin
 PATH: /bin
@@ -633,7 +626,7 @@ configure:23511: checking whether APR has DSO support
 configure:23536: result: yes
 configure:23621: checking for library containing crypt
 configure:23652: gcc -o conftest -g -O2 -pthread  -DLINUX -D_REENTRANT -D_GNU_SOURCE  conftest.c  >&5
-/usr/bin/ld: /tmp/ccy2DAjw.o: in function `main':
+/usr/bin/ld: /tmp/cc2xNWP7.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr-util/conftest.c:37: undefined reference to `crypt'
 collect2: error: ld returned 1 exit status
 configure:23652: $? = 1
@@ -753,7 +746,7 @@ conftest.c:38:12: warning: implicit declaration of function 'memset_s'; did you 
      return memset_s(buf, sizeof buf, 0, sizeof buf) != 0 || *buf != '\0';
             ^~~~~~~~
             memset
-/usr/bin/ld: /tmp/cc9PnXSU.o: in function `main':
+/usr/bin/ld: /tmp/ccncXXdo.o: in function `main':
 /home/yigonghu/software/httpd/2.4.38/srclib/apr-util/conftest.c:38: undefined reference to `memset_s'
 collect2: error: ld returned 1 exit status
 configure:23824: $? = 1
