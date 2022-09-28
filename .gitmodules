@@ -1,3 +1,4 @@
 [submodule "perfIsolation-Apache-mod_fcgid"]
 	path = perfIsolation-Apache-mod_fcgid
 	url = git@github.com:OrderLab/perfIsolation-Apache-mod_fcgid.git
+	branch = master
