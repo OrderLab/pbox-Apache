@@ -4,6 +4,15 @@ dnl
 dnl     Use ./buildconf to produce a configure script
 dnl
 
+
+# Psandbox
+if ${PSANDBOXDIR}; then
+ echo "PSANDBOXDIR environment variable is not set, building PostgreSQL without psandbox."
+else
+ PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
+ PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
+fi
+
 AC_PREREQ(2.50)
 AC_INIT(ABOUT_APACHE)
 
