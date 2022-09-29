@@ -49,7 +49,9 @@
 #include "apr_poll.h"
 
 #include <stdlib.h>
+#ifdef HAVE_PSANDBOX
 #include "psandbox.h"
+#endif
 
 #ifdef HAVE_TIME_H
 #include <time.h>
@@ -616,22 +618,16 @@ static void child_main(int child_num_arg, int child_bucket)
         current_conn = ap_run_create_connection(ptrans, ap_server_conf, csd, my_child_num, sbh, bucket_alloc);
 
 
-        int psandbox;
-        size_t client_ip;
-        struct timeval tv;
-        uint64_t start_us, end_us;
-
-        // psandbox = create_psandbox();
-        // active_psandbox(psandbox);
-
 
         if (current_conn) {
-            // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
-            //                 "!!!! client ip %s", current_conn->client_ip);
 
+          #ifdef HAVE_PSANDBOX
+          int psandbox;
+          size_t client_ip;
+          struct timeval tv;
+          uint64_t start_us, end_us;
             //ip to int
-             inet_pton(AF_INET, current_conn->client_ip, &client_ip); 
-
+             inet_pton(AF_INET, current_conn->client_ip, &client_ip);
             // ap_log_error(APLOG_MARK, APLOG_ERR, 0, ap_server_conf, APLOGNO(00161)
             //                 "[+] %lu: %lu start", client_ip, start_us);
 
@@ -650,7 +646,7 @@ static void child_main(int child_num_arg, int child_bucket)
                             /* "!!!! psandbox bind  %d", psandbox); */
             }
             activate_psandbox(psandbox);
-
+#endif
 
 
 #if APR_HAS_THREADS
@@ -658,8 +654,9 @@ static void child_main(int child_num_arg, int child_bucket)
 #endif
             ap_process_connection(current_conn, csd);
             // unbind before existing
+            #ifdef HAVE_PSANDBOX
             unbind_psandbox(client_ip, psandbox, UNBIND_HANDLE_ACCEPT);
-
+            #endif
             ap_lingering_close(current_conn);
         }
 
