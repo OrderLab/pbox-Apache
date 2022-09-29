@@ -3,6 +3,7 @@
 mkdir -p dist
 cd 2.4.38
 
+./buildconf
 ./configure --prefix=$(pwd)/../dist --with-included-apr --enable-so --enable-cgi --with-mpm=prefork
 
 make -j4

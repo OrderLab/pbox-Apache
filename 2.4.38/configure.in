@@ -7,10 +7,12 @@ dnl
 
 # Psandbox
 if ${PSANDBOXDIR}; then
- echo "PSANDBOXDIR environment variable is not set, building PostgreSQL without psandbox."
+ echo "PSANDBOXDIR environment variable is not set, building Apache without psandbox."
 else
  PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
  PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
+ CFLAGS="$CFLAGS -I${S2ESRC_INCLUDE} $S2E_VIOLET"
+ LIBS="$LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
 fi
 
 AC_PREREQ(2.50)
