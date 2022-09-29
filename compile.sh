@@ -7,8 +7,8 @@ cd 2.4.38
 
 make -j4
 if [ $? -ne 0 ]; then
-	  echo "Failed to build mysql"
-	    exit 1
+    echo "Failed to build apache"
+    exit 1
 fi
 
 make install

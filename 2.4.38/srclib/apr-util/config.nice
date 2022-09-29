@@ -1,0 +1,19 @@
+#! /bin/sh
+#
+# Created by configure
+
+"/home/yigonghu/software/httpd/2.4.38/srclib/apr-util/configure" \
+"--disable-option-checking" \
+"--with-included-apr" \
+"--enable-so" \
+"--enable-cgi" \
+"--with-mpm=prefork" \
+"--cache-file=/dev/null" \
+"--srcdir=/home/yigonghu/software/httpd/2.4.38/srclib/apr-util" \
+"--with-apr=../apr" \
+"--prefix=/home/yigonghu/software/httpd/2.4.38/../dist" \
+"--exec-prefix=/home/yigonghu/software/httpd/2.4.38/../dist" \
+"--libdir=/home/yigonghu/software/httpd/2.4.38/../dist/lib" \
+"--includedir=/home/yigonghu/software/httpd/2.4.38/../dist/include" \
+"--bindir=/home/yigonghu/software/httpd/2.4.38/../dist/bin" \
+"$@"
