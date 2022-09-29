@@ -15,7 +15,7 @@ fi
 make install
 
 cd perfIsolation-Apache-mod_fcgid
-APXS=$(pwd)/../bin/apxs ./configure.apxs
+APXS=$(pwd)/../dist/bin/apxs ./configure.apxs
 make
 make install
 
