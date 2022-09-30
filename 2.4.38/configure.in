@@ -4,7 +4,6 @@ dnl
 dnl     Use ./buildconf to produce a configure script
 dnl
 
-
 # Psandbox
 if ${PSANDBOXDIR}; then
  echo "PSANDBOXDIR environment variable is not set, building Apache without psandbox."
@@ -12,7 +11,7 @@ else
  PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
  PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
  PSANDBOX =-DHAVE_PSANDBOX
- CFLAGS="$CFLAGS -I${S2ESRC_INCLUDE} $PSANDBOX"
+ CFLAGS="$CFLAGS -I${PSANDBOXSRC_INCLUDE} $PSANDBOX"
  LIBS="$LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
 fi
 
