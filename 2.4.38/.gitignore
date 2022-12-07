@@ -366,6 +366,17 @@ test/__pycache__
 test/*/__pycache__
 test/*/*/__pycache__
 
+# /srclib/
+/srclib/pth
+/srclib/apr
+/srclib/apr-util
+/srclib/apr-iconv
+/srclib/distcache
+/srclib/lua
+/srclib/pcre
+/srclib/openssl
+/srclib/zlib
+
 # make check
 check
 build/config_vars.out

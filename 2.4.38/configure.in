@@ -4,16 +4,6 @@ dnl
 dnl     Use ./buildconf to produce a configure script
 dnl
 
-# Psandbox
-if ${PSANDBOXDIR}; then
- echo "PSANDBOXDIR environment variable is not set, building Apache without psandbox."
-else
- PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
- PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
- PSANDBOX =-DHAVE_PSANDBOX
- CFLAGS="$CFLAGS -I${PSANDBOXSRC_INCLUDE} $PSANDBOX"
- LIBS="$LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
-fi
 
 AC_PREREQ(2.50)
 AC_INIT(ABOUT_APACHE)
@@ -116,6 +106,16 @@ else
    ])
 fi
 
+# Psandbox
+if ${PSANDBOXDIR}; then
+ echo "PSANDBOXDIR environment variable is not set, building Apache without psandbox."
+else
+ PSANDBOXSRC_INCLUDE="${PSANDBOXDIR}/libs/include"
+ PSANDBOXSRC_LIB="${PSANDBOXDIR}/build/libs/"
+ PSANDBOX =-DHAVE_PSANDBOX
+ CFLAGS="$CFLAGS -I${PSANDBOXSRC_INCLUDE} $PSANDBOX"
+ LIBS="$LIBS -L${PSANDBOXSRC_LIB} -lpsandbox "
+fi
 if test "$apr_found" = "no"; then
   AC_MSG_ERROR([APR not found.  Please read the documentation.])
 fi
