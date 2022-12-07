@@ -39,7 +39,7 @@ make install
 cd ..
 cd php-7.4.23
 ./buildconf --force
-./configure --with-apxs2=$(pwd)/../dist/bin/apxs --prefix=$(pwd)/../dist/php
+./configure --with-apxs2=$(pwd)/../dist/bin/apxs --prefix=$(pwd)/../dist/php --enable-fpm
 make -j4 
 if [ $? -ne 0 ]; then
     echo "Failed to build apache"
