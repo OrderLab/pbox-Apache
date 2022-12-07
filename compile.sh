@@ -11,6 +11,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 make install
+cd ..
 
 git submodule update --init --recursive
 cd perfIsolation-Apache-mod_fcgid
@@ -22,6 +23,7 @@ if [ $? -ne 0 ]; then
 fi
 make install
 
+cd ..
 cd php-7.4.23
 ./buildconf --force
 ./configure --with-apxs2=$(pwd)/../dist/bin/apxs --prefix=$(pwd)/../dist/php
