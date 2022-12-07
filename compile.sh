@@ -13,7 +13,9 @@ wget https://dlcdn.apache.org//apr/apr-util-1.6.1.tar.gz
 tar -xzvf apr-util-1.6.1.tar.gz
 mv apr-util-1.6.1 apr-util
 
-cd..
+cd ..
+./buildconf
+
 ./configure --prefix=$(pwd)/../dist --with-included-apr --enable-so --enable-cgi --with-mpm=prefork
 
 make -j4

@@ -27,6 +27,7 @@ Release
 
 # /
 /config.nice
+/configure
 /missing
 /install-sh
 /mkinstalldirs
@@ -371,6 +372,7 @@ test/*/*/__pycache__
 
 # make check
 check
+configure
 build/config_vars.out
 dist/
 config.log
