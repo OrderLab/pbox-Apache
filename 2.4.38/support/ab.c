@@ -213,6 +213,7 @@ typedef STACK_OF(X509) X509_STACK_TYPE;
 #endif
 #if APR_HAVE_LIMITS_H
 #include <limits.h>
+#include <stdbool.h>
 #endif
 
 /* ------------------- DEFINITIONS -------------------------- */
@@ -347,6 +348,9 @@ int err_conn = 0;          /* requests failed due to connection drop */
 int err_recv = 0;          /* requests failed due to broken read */
 int err_except = 0;        /* requests failed due to exception */
 int err_response = 0;      /* requests with invalid or non-200 response */
+int print_realtime_latency = false;
+FILE *ff;
+
 
 #ifdef USE_SSL
 int is_ssl;
@@ -364,7 +368,7 @@ const char *tls_sni = NULL; /* 'opt_host' if any, 'hostname' otherwise */
 #endif
 #endif
 
-apr_time_t start, lasttime, stoptime;
+apr_time_t start, lasttime, stoptime, tracetime;
 
 /* global request (and its length) */
 char _request[8192];
@@ -1152,11 +1156,11 @@ static void output_results(int sig)
                 if (percs[i] <= 0)
                     printf(" 0%%  <0> (never)\n");
                 else if (percs[i] >= 100)
-                    printf(" 100%%  %5" APR_TIME_T_FMT " (longest request)\n",
-                           ap_round_ms(stats[done - 1].time));
+                    printf(" 100%%  %.3f (longest request)\n",
+                         ap_double_ms(stats[done - 1].time));
                 else
-                    printf("  %d%%  %5" APR_TIME_T_FMT "\n", percs[i],
-                           ap_round_ms(stats[(unsigned long)done * percs[i] / 100].time));
+                    printf("  %d%%   %.3f\n", percs[i],
+                         ap_double_ms(stats[(unsigned long)done * percs[i] / 100].time));
             }
         }
         if (csvperc) {
@@ -1499,6 +1503,17 @@ static void close_connection(struct connection * c)
             if (heartbeatres && !(done % heartbeatres)) {
                 fprintf(stderr, "Completed %d requests\n", done);
                 fflush(stderr);
+            }
+
+            if(print_realtime_latency) {
+              apr_time_t now = apr_time_now() ;
+              if (now- tracetime > 1000000) {
+                long timetaken = now - start ;
+                tracetime =  now;
+                fprintf(ff, "%ld\n", (long)(concurrency * timetaken * 1000) / done);
+                fflush(ff);
+              }
+
             }
         }
     }
@@ -1949,7 +1964,7 @@ static void test(void)
     }
 
     /* ok - lets start */
-    start = lasttime = apr_time_now();
+    start = lasttime = tracetime = apr_time_now();
     stoptime = tlimit ? (start + apr_time_from_sec(tlimit)) : AB_MAX;
 
 #ifdef SIGINT
@@ -2340,7 +2355,7 @@ int main(int argc, const char * const argv[])
     myhost = NULL; /* 0.0.0.0 or :: */
 
     apr_getopt_init(&opt, cntxt, argc, argv);
-    while ((status = apr_getopt(opt, "n:c:t:s:b:T:p:u:v:lrkVhwiIx:y:z:C:H:P:A:g:X:de:SqB:m:"
+    while ((status = apr_getopt(opt, "n:c:t:s:b:T:p:u:v:lorkVhwiIx:y:z:C:H:P:A:g:X:de:SqB:m:"
 #ifdef USE_SSL
             "Z:f:E:"
 #endif
@@ -2438,6 +2453,10 @@ int main(int argc, const char * const argv[])
                 auth = apr_pstrcat(cntxt, auth, "Authorization: Basic ", tmp,
                                        "\r\n", NULL);
                 break;
+            case 'o':
+              print_realtime_latency = true;
+              ff = fopen("parties.log", "w");
+              break;
             case 'P':
                 /*
                  * assume username passwd already to be in colon separated form.
@@ -2690,6 +2709,8 @@ int main(int argc, const char * const argv[])
 #endif
     copyright();
     test();
+    if(print_realtime_latency)
+      fclose(ff);
     apr_pool_destroy(cntxt);
 
     return 0;
