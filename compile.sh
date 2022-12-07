@@ -1,8 +1,19 @@
 #!/bin/bash
 
+
 mkdir -p dist
 cd 2.4.38
 
+cd srclib
+wget https://dlcdn.apache.org/apr/apr-1.7.0.tar.gz
+tar -xzvf apr-1.7.0.tar.gz
+mv apr-1.7.0 apr
+
+wget https://dlcdn.apache.org//apr/apr-util-1.6.1.tar.gz
+tar -xzvf apr-util-1.6.1.tar.gz
+mv apr-util-1.6.1 apr-util
+
+cd..
 ./configure --prefix=$(pwd)/../dist --with-included-apr --enable-so --enable-cgi --with-mpm=prefork
 
 make -j4
